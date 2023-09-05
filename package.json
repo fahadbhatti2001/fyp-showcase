@@ -4,16 +4,34 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write -- ignore-path .gitignore ."
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": false,
+    "trailingComma": "all"
   },
   "dependencies": {
-    "autoprefixer": "10.4.15",
-    "next": "13.4.19",
-    "postcss": "8.4.29",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3"
+    "@heroicons/react": "^2.0.18",
+    "firebase": "^10.3.1",
+    "immer": "^10.0.2",
+    "moment": "^2.29.4",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.1",
+    "sweetalert2": "^11.7.27",
+    "tw-elements": "^1.0.0-rc.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.48.0",
+    "eslint-config-next": "^13.4.19",
+    "postcss": "^8.4.29",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3"
   }
 }
