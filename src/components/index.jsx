@@ -1,0 +1,5 @@
+export { Navbar } from "./Global/Navbar"
+export { Footer } from "./Global/Footer"
+export { Banner } from "./Public/Home/Banner"
+export { Features } from "./Public/Home/Features"
+export { Projects } from "./Public/Home/Projects"
