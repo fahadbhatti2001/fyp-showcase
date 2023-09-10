@@ -1,6 +1,7 @@
 import React from "react"
 import { CheckCircleIcon } from "@heroicons/react/24/solid"
 import { ArrowRightIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
 
 export const Projects = () => {
   return (
@@ -26,10 +27,10 @@ export const Projects = () => {
             <div className="md:flex-grow">
               <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">Bitters hashtag waistcoat fashion axe chia unicorn</h2>
               <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-              <a className="text-primary-1 flex gap-2 items-center mt-4">
+              <Link href="/" className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4">
                 Learn More
                 <ArrowRightIcon className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="py-8 flex flex-wrap md:flex-nowrap">
@@ -40,10 +41,10 @@ export const Projects = () => {
             <div className="md:flex-grow">
               <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">Meditation bushwick direct trade taxidermy shaman</h2>
               <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-              <a className="text-primary-1 flex gap-2 items-center mt-4">
+              <Link href="/" className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4">
                 Learn More
                 <ArrowRightIcon className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="py-8 flex flex-wrap md:flex-nowrap">
@@ -54,13 +55,18 @@ export const Projects = () => {
             <div className="md:flex-grow">
               <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">Woke master cleanse drinking vinegar salvia</h2>
               <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-              <a className="text-primary-1 flex gap-2 items-center mt-4">
+              <Link href="/" className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4">
                 Learn More
                 <ArrowRightIcon className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
+        <button class="flex mx-auto mt-16 text-white bg-primary-1 border-0 py-2 px-8 focus:outline-none hover:bg-opacity-90 rounded text-lg">
+          <Link href="/">
+            View All
+          </Link>
+        </button>
       </div>
     </section>
   )
