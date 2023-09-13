@@ -1,5 +1,6 @@
 export { Navbar } from "./Global/Navbar"
 export { Footer } from "./Global/Footer"
+export { News } from "./Public/Home/News"
 export { Banner } from "./Public/Home/Banner"
-export { Features } from "./Public/Home/Features"
+export { Community } from "./Public/Home/Community"
 export { Projects } from "./Public/Home/Projects"

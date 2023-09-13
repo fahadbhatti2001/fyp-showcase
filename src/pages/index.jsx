@@ -1,4 +1,4 @@
-import { Banner, Features, Footer, Navbar, Projects } from "@/components"
+import { Banner, Community, Features, Footer, Navbar, News, Projects } from "@/components"
 import React from "react"
 
 export default function index() {
@@ -8,7 +8,8 @@ export default function index() {
         <Navbar />
         <Banner />
         <Projects />
-        <Features />
+        <Community />
+        <News />
         <Footer />
       </div>
     </div>
