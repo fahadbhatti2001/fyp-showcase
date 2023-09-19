@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React from "react"
 
 export const Navbar = () => {
@@ -6,9 +7,9 @@ export const Navbar = () => {
       <a className="flex title-font font-medium items-center text-primary-1">
         <span className="text-xl">Final Year Project</span>
       </a>
-      <button className="md:order-2 order-1 text-white bg-primary-1 py-2 px-6 outline-none hover:bg-opacity-90 rounded text-base">
+      <Link href="/login" className="md:order-2 order-1 text-white bg-primary-1 py-2 px-6 outline-none hover:bg-opacity-90 rounded text-base">
         Login
-      </button>
+      </Link>
     </div>
   )
 }
