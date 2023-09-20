@@ -1,4 +1,4 @@
-import { Banner, Community, Features, Footer, Navbar, News, Projects } from "@/components"
+import { Banner, Community, Footer, Navbar, News, Projects } from "@/components"
 import React from "react"
 
 export default function index() {

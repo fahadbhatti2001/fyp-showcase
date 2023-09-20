@@ -6,7 +6,8 @@ import {
   browserLocalPersistence,
   setPersistence,
   sendPasswordResetEmail,
-  confirmPasswordReset
+  confirmPasswordReset,
+  createUserWithEmailAndPassword
 } from "firebase/auth"
 import { auth } from "@/FirebaseConfig";
 
@@ -15,6 +16,10 @@ const UserAuthContext = createContext()
 export const UserAuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState({})
+
+  const signUp = async (email, password) => {
+    return await createUserWithEmailAndPassword(auth, email, password)
+  }
 
   const signIn = async (email, password) => {
 
@@ -49,7 +54,7 @@ export const UserAuthContextProvider = ({ children }) => {
   }, [])
 
   return (
-    <UserAuthContext.Provider value={{ user, signIn, logOut, forgetPassword, resetPassword }}>
+    <UserAuthContext.Provider value={{ user, signUp, signIn, logOut, forgetPassword, resetPassword }}>
       {children}
     </UserAuthContext.Provider>
   )
