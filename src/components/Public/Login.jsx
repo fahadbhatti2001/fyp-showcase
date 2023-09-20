@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseUserAuth } from '@/components';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import Link from "next/link";
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/FirebaseConfig';
+import { Localstorage } from '@/services/Localstorage';
 
 
 export const Login = () => {
     const { signIn } = UseUserAuth()
-
     const router = useRouter()
-
     const { register, handleSubmit } = useForm()
 
     const onSignIn = async (data) => {
         try {
-            if (data.email == "admin@gmail.com" && data.password == "12345678") {
-                router.push("/admin")
-            } else {
-                await signIn(data.email, data.password)
+            const user = await signIn(data.email, data.password)
+            const userDocRef = doc(db, "Users", user.user.uid);
+            const userDocSnapshot = await getDoc(userDocRef);
+            const userData = userDocSnapshot.data()
+            const copyUserData = { ...userData }
+            copyUserData.id = user.user.uid
+            Localstorage.set("user", copyUserData)
+            if (userData.role == "ADMIN") {
                 router.push("/admin")
             }
-
+            else if (userData.role == "STUDENT") {
+                router.push("/dashboard")
+            }
         } catch (error) {
             Swal.fire({
                 icon: "error",

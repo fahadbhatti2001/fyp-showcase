@@ -22,7 +22,7 @@ export const Register = () => {
                 const inputDataCopy = { ...data }
                 inputDataCopy.timestamp = serverTimestamp()
                 inputDataCopy.role = "STUDENT"
-                await setDoc(doc(db, "Student", response.user.uid), inputDataCopy)
+                await setDoc(doc(db, "Users", response.user.uid), inputDataCopy)
                 setSpin(false)
             })
             setSpin(false);
@@ -73,7 +73,7 @@ export const Register = () => {
                             <label htmlFor="password" className="font-PoppinsRegular text-sm text-zinc-800 pb-2 pl-1">Password</label>
                             <input {...register("password", { required: true })} type="password" id="password" placeholder="Enter password" className="font-PoppinsRegular text-base p-2 border border-gray-300 rounded shadow-sm mb-4 placeholder:text-xs placeholder:text-zinc-400 focus:outline-primary-1" />
                             <button onClick={handleSubmit(onSignIn)} type="button" className="font-PoppinsRegular text-base p-2 bg-primary-1 text-white rounded shadow-sm mt-2">
-                                Login
+                                Register
                             </button>
                             <div className="flex justify-center py-2">
                                 <p className="font-PoppinsRegular text-xs text-zinc-800">
