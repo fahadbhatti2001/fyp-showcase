@@ -1,7 +1,12 @@
+import { Sidebar } from '@/components'
 import React from 'react'
 
 export default function admin() {
   return (
-    <div>admin</div>
+    <>
+      <Sidebar >
+        <div className="">d</div>
+      </Sidebar>
+    </>
   )
 }

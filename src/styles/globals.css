@@ -74,3 +74,7 @@ body {
 ::-webkit-scrollbar-thumb {
   @apply bg-primary-1;
 }
+
+.body-height {
+  height: calc(100vh - 60px);
+}

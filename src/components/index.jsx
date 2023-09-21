@@ -2,6 +2,7 @@
 export { Navbar } from "./Global/Navbar"
 export { Footer } from "./Global/Footer"
 export { Spinner } from "./Global/Spinner"
+export { Sidebar } from "./Global/Sidebar"
 
 // Public Components
 export { Login } from "./Public/Login"
