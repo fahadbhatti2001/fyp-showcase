@@ -1,8 +1,8 @@
-import { Sidebar, UseUserAuth } from "@/components"
+import { Manage, Sidebar, UseUserAuth } from "@/components"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { user } = UseUserAuth()
   const router = useRouter()
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
   return (
     <>
       <Sidebar>
-        <div className="">Dashboard</div>
+        <Manage />
       </Sidebar>
     </>
   )

@@ -1,0 +1,712 @@
+import React, { useEffect, useState } from "react"
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore"
+import { db, storage } from "@/FirebaseConfig"
+import { Chips, Spinner, UseUserAuth } from "@/components"
+import Swal from "sweetalert2"
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage"
+import { useForm } from "react-hook-form"
+import {
+  ArrowLeftCircleIcon,
+  CameraIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline"
+import { produce } from "immer"
+
+export const Manage = () => {
+  let [data, setData] = useState([])
+  const projectsRef = collection(db, "Projects")
+
+  const [isEdit, setIsEdit] = useState(false)
+  const [spin, setSpin] = useState(false)
+
+  const { user } = UseUserAuth()
+
+  const getData = async () => {
+    const projectsData = await getDocs(projectsRef)
+    const allProjects = projectsData.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }))
+    const specificUserData = allProjects.filter((x) => x.userID == user.uid)
+    setData(specificUserData)
+  }
+
+  useEffect(() => {
+    if (user) {
+      if (user.uid) {
+        getData()
+      }
+    }
+  }, [user])
+
+  const [group, setGroup] = useState([])
+  const [achivements, setAchivements] = useState([])
+
+  let imageName = new Date().getTime()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm()
+
+  const [images, setImages] = useState([])
+  const [showImages, setShowImages] = useState([])
+  const [proposal, setProposal] = useState({})
+  const [investigation, setInvestigation] = useState({})
+  const [report, setReport] = useState({})
+
+  const handleImage = async (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImages([...images, event.target.files[0]])
+      setShowImages([...showImages, URL.createObjectURL(event.target.files[0])])
+    }
+  }
+
+  const removeImage = (indexToRemove) => {
+    setShowImages([...showImages.filter((_, index) => index !== indexToRemove)])
+    setImages([...images.filter((_, index) => index !== indexToRemove)])
+  }
+
+  const onDelete = async (data) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#FF6D35",
+        cancelButtonColor: "#d33333",
+        confirmButtonText: "Yes, Delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setSpin(true)
+          const projectDoc = doc(db, "Projects", data.id)
+          for (const [i, file] of data.images.entries()) {
+            const deleteImage = ref(storage, file)
+            await deleteObject(deleteImage)
+          }
+          const deleteProposal = ref(storage, data.proposal)
+          const deleteInvestigation = ref(storage, data.investigation)
+          const deleteReport = ref(storage, data.report)
+          await deleteDoc(projectDoc)
+          await deleteObject(deleteProposal)
+          await deleteObject(deleteInvestigation)
+          await deleteObject(deleteReport)
+          const newData = data.filter((e) => e.id != id)
+          setData(newData)
+          setSpin(false)
+          Swal.fire({
+            icon: "success",
+            title: "Project Deleted!",
+            toast: true,
+            animation: true,
+            position: "top",
+            timer: 2000,
+            iconColor: "#27272a",
+            showCancelButton: false,
+            showConfirmButton: false,
+          })
+        }
+      })
+    } catch (error) {
+      setSpin(false)
+      Swal.fire({
+        icon: "error",
+        title: "Unable to delete project!",
+        toast: true,
+        animation: true,
+        position: "top",
+        timer: 2000,
+        iconColor: "#27272a",
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  const onEdit = (data) => {
+    setImages(data.images)
+    setShowImages(data.images)
+    setAchivements(data.achivements)
+    setGroup(data.group)
+    setProposal(data.proposal)
+    setInvestigation(data.investigation)
+    setReport(data.report)
+    setValue("id", data.id)
+    setValue("projectTitle", data.projectTitle)
+    setValue("projectSupervisor", data.projectSupervisor)
+    setValue("department", data.department)
+    setValue("program", data.program)
+    setValue("session", data.session)
+    setValue("course", data.course)
+    setValue("costEst", data.costEst)
+    setValue("youtube", data.youtube)
+    setValue("leader", data.leader)
+    setValue("summary", data.summary)
+    setValue("problemScope", data.problemScope)
+    setValue("problemStatement", data.problemStatement)
+    setValue("projectObjective", data.projectObjective)
+    setIsEdit(true)
+  }
+
+  const onSubmit = async (data) => {
+    try {
+      setSpin(true)
+      const urls = []
+      for (const [i, file] of images.entries()) {
+        if (typeof file === "string") {
+          urls.push(file)
+        } else {
+          const imageRef = ref(storage, `images/${imageName + i}`)
+          const snapshot = await uploadBytes(imageRef, file)
+          const downloadURL = await getDownloadURL(snapshot.ref)
+          urls.push(downloadURL)
+        }
+      }
+
+      let downloadProposalURL = ""
+      if (typeof proposal !== "string") {
+        const proposalRef = ref(storage, `files/${proposal.name}`)
+        const snapshotProposal = await uploadBytes(proposalRef, proposal)
+        downloadProposalURL = await getDownloadURL(snapshotProposal.ref)
+      } else {
+        downloadProposalURL = proposal
+      }
+
+      let downloadInvestigationURL = ""
+      if (typeof investigation !== "string") {
+        const investigationRef = ref(storage, `files/${investigation.name}`)
+        const snapshotInvestigation = await uploadBytes(
+          investigationRef,
+          investigation,
+        )
+        downloadInvestigationURL = await getDownloadURL(
+          snapshotInvestigation.ref,
+        )
+      } else {
+        downloadInvestigationURL = investigation
+      }
+
+      let downloadReportURL = ""
+      if (typeof report !== "string") {
+        const reportRef = ref(storage, `files/${report.name}`)
+        const snapshotReport = await uploadBytes(reportRef, report)
+        downloadReportURL = await getDownloadURL(snapshotReport.ref)
+      } else {
+        downloadReportURL = report
+      }
+
+      const inputDataCopy = { ...data }
+      inputDataCopy.timestamp = serverTimestamp()
+      inputDataCopy.status = "Pending Approval"
+      inputDataCopy.images = urls
+      inputDataCopy.achivements = achivements
+      inputDataCopy.group = group
+      inputDataCopy.userID = user.uid
+
+      inputDataCopy.proposal = downloadProposalURL
+      inputDataCopy.investigation = downloadInvestigationURL
+      inputDataCopy.report = downloadReportURL
+
+      const projectDoc = doc(db, "Projects", data.id)
+      await updateDoc(projectDoc, inputDataCopy)
+
+      reset({
+        projectTitle: "",
+        projectSupervisor: "",
+        department: "",
+        program: "",
+        session: "",
+        course: "",
+        costEst: "",
+        youtube: "",
+        leader: "",
+        summary: "",
+        problemScope: "",
+        problemStatement: "",
+        projectObjective: "",
+      })
+      setImages([])
+      setProposal({})
+      setInvestigation({})
+      setReport({})
+      setShowImages([])
+      setSpin(false)
+      setIsEdit(false)
+      setData(
+        produce((draft) => {
+          let projectData = draft.find(
+            (projectData) => projectData.id === data.id,
+          )
+          projectData.projectTitle = inputDataCopy.projectTitle
+          projectData.projectSupervisor = inputDataCopy.projectSupervisor
+          projectData.department = inputDataCopy.department
+          projectData.program = inputDataCopy.program
+          projectData.session = inputDataCopy.session
+          projectData.course = inputDataCopy.course
+          projectData.costEst = inputDataCopy.costEst
+          projectData.youtube = inputDataCopy.youtube
+          projectData.leader = inputDataCopy.leader
+          projectData.summary = inputDataCopy.summary
+          projectData.problemScope = inputDataCopy.problemScope
+          projectData.problemStatement = inputDataCopy.problemStatement
+          projectData.projectObjective = inputDataCopy.projectObjective
+          projectData.group = inputDataCopy.group
+          projectData.achivements = inputDataCopy.achivements
+          projectData.timestamp.seconds = imageName
+          projectData.image = inputDataCopy.images
+        }),
+      )
+      Swal.fire({
+        icon: "success",
+        title: "Project Updated!",
+        toast: true,
+        animation: true,
+        position: "top",
+        timer: 2000,
+        iconColor: "#27272a",
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Unable to Update Project",
+        toast: true,
+        animation: true,
+        position: "top",
+        timer: 2000,
+        iconColor: "#27272a",
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  return (
+    <>
+      <Spinner isSpinner={spin}></Spinner>
+      {isEdit ? (
+        <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 lg:gap-4 gap-2 dashboard-height overflow-auto p-4">
+          <button
+            className="text-primary-1 flex items-center gap-2 text-sm"
+            onClick={() => isEdit(false)}
+            type="button"
+          >
+            <ArrowLeftCircleIcon className="w-4 h-4" /> Back
+          </button>
+          <fieldset className="lg:col-span-6 md:col-span-4 col-span-2 w-full">
+            <label htmlFor="images" className="text-sm">
+              Add Images
+            </label>
+            <input
+              id="images"
+              type="file"
+              className="hidden"
+              onChange={(e) => handleImage(e)}
+              accept="image/png, image/jpg, image/jpeg"
+            />
+            <div className="flex flex-wrap gap-2 relative z-0">
+              {showImages.map((e, i) => (
+                <div key={i} className="relative">
+                  <button
+                    className="absolute right-1 top-1 z-10"
+                    onClick={() => removeImage(i)}
+                    title="Close"
+                  >
+                    <XCircleIcon className="h-5 w-5 stroke-2  stroke-red-500 rounded-full" />
+                  </button>
+                  <img
+                    src={e}
+                    className="md:h-40 h-24 md:w-40 w-24 object-contain rounded border border-primary-1 bg-white/5 backdrop-blur-sm relative"
+                    alt=""
+                    width={100}
+                    height={100}
+                  />
+                </div>
+              ))}
+              {showImages.length <= 7 && (
+                <label
+                  className="col-span-1 md:h-40 h-24 md:w-40 w-24 flex justify-center items-center rounded border border-primary-1 text-gray-400 hover:text-red-500 cursor-pointer"
+                  htmlFor="images"
+                >
+                  <CameraIcon className="h-8 w-8 stroke-primary-1" />
+                </label>
+              )}
+            </div>
+          </fieldset>
+          <div className="col-span-2 w-full">
+            <label htmlFor="projectTitle" className="text-sm">
+              Project Title
+            </label>
+            <input
+              type="text"
+              {...register("projectTitle", { required: true })}
+              placeholder="Enter Project Title"
+              id="projectTitle"
+              className={
+                (errors.projectTitle
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="projectSupervisor" className="text-sm">
+              Project Supervisor
+            </label>
+            <input
+              type="text"
+              {...register("projectSupervisor", { required: true })}
+              placeholder="Enter Project Supervisor"
+              id="projectSupervisor"
+              className={
+                (errors.projectSupervisor
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="department" className="text-sm">
+              Department
+            </label>
+            <input
+              type="text"
+              {...register("department", { required: true })}
+              placeholder="Enter Department"
+              id="department"
+              className={
+                (errors.department
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="program" className="text-sm">
+              Program
+            </label>
+            <input
+              type="text"
+              {...register("program", { required: true })}
+              placeholder="Enter Program"
+              id="program"
+              className={
+                (errors.program
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="session" className="text-sm">
+              Session
+            </label>
+            <input
+              type="text"
+              {...register("session", { required: true })}
+              placeholder="Enter Session"
+              id="session"
+              className={
+                (errors.session
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="course" className="text-sm">
+              Course
+            </label>
+            <input
+              type="text"
+              {...register("course", { required: true })}
+              placeholder="Enter Course"
+              id="course"
+              className={
+                (errors.course
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full flex flex-col gap-1">
+            <label htmlFor="proposal" className="text-sm">
+              Proposal
+            </label>
+            <label
+              htmlFor="proposal"
+              className="mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1 text-zinc-400 cursor-pointer"
+            >
+              {proposal.name == undefined ? (
+                <p>
+                  Submit Proposal{" "}
+                  <span className="text-xs">(DOC, DOCX, PDF)</span>
+                </p>
+              ) : (
+                <p className="">{proposal.name}</p>
+              )}
+            </label>
+            <input
+              type="file"
+              id="proposal"
+              className="hidden"
+              onChange={(e) => setProposal(e.target.files[0])}
+              accept="doc, .docx, .pdf"
+            />
+          </div>
+          <div className="col-span-2 w-full flex flex-col gap-1">
+            <label htmlFor="investigation" className="text-sm">
+              Investigation Report
+            </label>
+            <label
+              htmlFor="investigation"
+              className="mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1 text-zinc-400 cursor-pointer"
+            >
+              {investigation.name == undefined ? (
+                <p>
+                  Submit Investigation Report{" "}
+                  <span className="text-xs">(DOC, DOCX, PDF)</span>
+                </p>
+              ) : (
+                <p className="">{investigation.name}</p>
+              )}
+            </label>
+            <input
+              type="file"
+              id="investigation"
+              className="hidden"
+              onChange={(e) => setInvestigation(e.target.files[0])}
+              accept="doc, .docx, .pdf"
+            />
+          </div>
+          <div className="col-span-2 w-full flex flex-col gap-1">
+            <label htmlFor="final" className="text-sm">
+              Final Report
+            </label>
+            <label
+              htmlFor="final"
+              className="mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1 text-zinc-400 cursor-pointer"
+            >
+              {report.name == undefined ? (
+                <p>
+                  Submit Final Report{" "}
+                  <span className="text-xs">(DOC, DOCX, PDF)</span>
+                </p>
+              ) : (
+                <p className="">{report.name}</p>
+              )}
+            </label>
+            <input
+              type="file"
+              id="final"
+              className="hidden"
+              onChange={(e) => setReport(e.target.files[0])}
+              accept="doc, .docx, .pdf"
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="costEst" className="text-sm">
+              Cost Estimation
+            </label>
+            <input
+              type="number"
+              {...register("costEst", { required: true })}
+              placeholder="Enter Cost Estimation"
+              id="costEst"
+              className={
+                (errors.program
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="youtube" className="text-sm">
+              Youtube Link
+            </label>
+            <input
+              type="text"
+              {...register("youtube", { required: true })}
+              placeholder="Enter Youtube Link"
+              id="youtube"
+              className={
+                (errors.youtube
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="leader" className="text-sm">
+              Leader Name
+            </label>
+            <input
+              type="text"
+              {...register("leader", { required: true })}
+              placeholder="Enter Leader Name"
+              id="leader"
+              className={
+                (errors.leader
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <Chips
+            className="lg:col-span-3 col-span-2 w-full"
+            label="Group Members"
+            placeholder="Add and hit enter"
+            previousChips={group}
+            setchip={setGroup}
+          />
+          <Chips
+            className="lg:col-span-3 col-span-2 w-full"
+            label="Achievements"
+            placeholder="Add and hit enter"
+            previousChips={achivements}
+            setchip={setAchivements}
+          />
+          <div className="lg:col-span-3 col-span-2 w-full">
+            <label htmlFor="summary" className="text-sm">
+              Project Summary/Abstract
+            </label>
+            <textarea
+              type="text"
+              {...register("summary", { required: true })}
+              placeholder="Enter Summary/Abstract"
+              id="summary"
+              className={
+                (errors.summary
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " resize-none h-40 mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="lg:col-span-3 col-span-2 w-full">
+            <label htmlFor="problemStatement" className="text-sm">
+              Problem Statement
+            </label>
+            <textarea
+              type="text"
+              {...register("problemStatement", { required: true })}
+              placeholder="Enter Problem Statement"
+              id="problemStatement"
+              className={
+                (errors.problemStatement
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " resize-none h-40 mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="lg:col-span-3 col-span-2 w-full">
+            <label htmlFor="projectObjective" className="text-sm">
+              Project Objective
+            </label>
+            <textarea
+              type="text"
+              {...register("projectObjective", { required: true })}
+              placeholder="Enter Project Objective"
+              id="projectObjective"
+              className={
+                (errors.projectObjective
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " resize-none h-40 mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="lg:col-span-3 col-span-2 w-full">
+            <label htmlFor="problemScope" className="text-sm">
+              Problem Scope
+            </label>
+            <textarea
+              type="text"
+              {...register("problemScope", { required: true })}
+              placeholder="Enter Problem Scope"
+              id="problemScope"
+              className={
+                (errors.problemScope
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " resize-none h-40 mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            />
+          </div>
+          <div className="lg:col-span-6 col-span-3 w-full flex justify-end">
+            <button
+              type="button"
+              onClick={handleSubmit(onSubmit)}
+              className="py-2 px-4 hover:text-primary-1 text-white hover:bg-transparent bg-primary-1 2xl:text-base lg:text-xs text-sm border border-primary-1 rounded"
+            >
+              Update Project
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 w-full gap-2 p-4">
+          {data.map((e, i) => (
+            <div
+              key={i}
+              className="border border-primary-1/50 rounded-md shadow"
+            >
+              <div className="col-span-1 bg-white/5 w-full flex flex-col border-b border-zinc-100 gap-2 2xl:p-4 p-2 2xl:rounded-t-xl rounded-t">
+                <div className="flex justify-end">
+                  <p className="text-xs border border-black px-2 py-px rounded-full">
+                    {e.status}
+                  </p>
+                </div>
+                <h1 className="text-zinc-700 text-ellipsis whitespace-nowrap w-full overflow-hidden">
+                  {e.projectTitle}
+                </h1>
+                <p className="text-sm text-zinc-400 text-wrap">{e.summary}</p>
+              </div>
+              <div className="grid grid-cols-2 bg-white/5 2xl:rounded-b-xl rounded-b">
+                <button
+                  onClick={() => onEdit(e)}
+                  className="2xl:text-base text-sm text-center text-primary-1 py-2 border-r border-zinc-100"
+                  type="button"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDelete(e)}
+                  className="2xl:text-base text-sm text-center text-primary-1 py-2 border-l border-zinc-100"
+                  type="button"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}

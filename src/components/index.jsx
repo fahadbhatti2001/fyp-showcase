@@ -15,6 +15,8 @@ export { Projects } from "./Public/Home/Projects"
 
 // Private Components
 export { Add } from "./Private/Project/Add"
+export { Manage } from "./Private/Project/Manage"
+export { Read } from "./Private/Project/Read"
 
 // Auth Components
 export { UseUserAuth, UserAuthContextProvider } from "../context/UserAuth"

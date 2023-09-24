@@ -82,3 +82,12 @@ body {
 .dashboard-height {
   height: calc(100vh - 61px);
 }
+
+.text-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
