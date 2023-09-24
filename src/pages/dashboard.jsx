@@ -1,7 +1,22 @@
-import React from 'react'
+import { Sidebar, UseUserAuth } from "@/components"
+import { useRouter } from "next/router"
+import React, { useEffect } from "react"
 
-export default function dashboard() {
+export default function Dashboard() {
+  const { user } = UseUserAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user == undefined) {
+      router.push("/login")
+    }
+  })
+
   return (
-    <div>dashboard</div>
+    <>
+      <Sidebar>
+        <div className="">Dashboard</div>
+      </Sidebar>
+    </>
   )
 }

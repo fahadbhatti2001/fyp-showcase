@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react"
 
 export default function project() {
-  return (
-    <div>project</div>
-  )
+  return <div>project</div>
 }

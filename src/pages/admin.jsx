@@ -1,11 +1,11 @@
-import { Sidebar } from '@/components'
-import React from 'react'
+import { Sidebar } from "@/components"
+import React from "react"
 
-export default function admin() {
+export default function Admin() {
   return (
     <>
-      <Sidebar >
-        <div className="">d</div>
+      <Sidebar>
+        <div className="">Admin</div>
       </Sidebar>
     </>
   )

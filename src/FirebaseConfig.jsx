@@ -10,8 +10,8 @@ const firebaseConfig = {
   storageBucket: "final-year-project-fce3f.appspot.com",
   messagingSenderId: "429391603456",
   appId: "1:429391603456:web:ce4c421e1215abdca5b5e5",
-  measurementId: "G-HJC87P96GK"
-};
+  measurementId: "G-HJC87P96GK",
+}
 
 const app = initializeApp(firebaseConfig)
 

@@ -78,3 +78,7 @@ body {
 .body-height {
   height: calc(100vh - 60px);
 }
+
+.dashboard-height {
+  height: calc(100vh - 61px);
+}

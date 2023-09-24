@@ -9,7 +9,9 @@ export const Banner = () => {
             Enhance Skills with Unique Projects
           </h1>
           <p className="mb-8 leading-relaxed">
-            Discover a vast array of creative projects, topics, and development. We are dedicated to providing students with top-notch projects that facilitate the enhancement of their application development skills.
+            Discover a vast array of creative projects, topics, and development.
+            We are dedicated to providing students with top-notch projects that
+            facilitate the enhancement of their application development skills.
           </p>
         </div>
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:block hidden">

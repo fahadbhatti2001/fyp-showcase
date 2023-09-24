@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react"
 import {
   signInWithEmailAndPassword,
   signOut,
@@ -7,14 +7,13 @@ import {
   setPersistence,
   sendPasswordResetEmail,
   confirmPasswordReset,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
 } from "firebase/auth"
-import { auth } from "@/FirebaseConfig";
+import { auth } from "@/FirebaseConfig"
 
 const UserAuthContext = createContext()
 
 export const UserAuthContextProvider = ({ children }) => {
-
   const [user, setUser] = useState({})
 
   const signUp = async (email, password) => {
@@ -22,21 +21,15 @@ export const UserAuthContextProvider = ({ children }) => {
   }
 
   const signIn = async (email, password) => {
-
     return await signInWithEmailAndPassword(auth, email, password)
-
   }
 
   const forgetPassword = async (email) => {
-
     return await sendPasswordResetEmail(auth, email)
-
   }
 
   const resetPassword = async (password) => {
-
     return await confirmPasswordReset(oobCode, password)
-
   }
 
   const logOut = async () => {
@@ -54,7 +47,9 @@ export const UserAuthContextProvider = ({ children }) => {
   }, [])
 
   return (
-    <UserAuthContext.Provider value={{ user, signUp, signIn, logOut, forgetPassword, resetPassword }}>
+    <UserAuthContext.Provider
+      value={{ user, signUp, signIn, logOut, forgetPassword, resetPassword }}
+    >
       {children}
     </UserAuthContext.Provider>
   )
