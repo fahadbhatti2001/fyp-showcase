@@ -211,57 +211,6 @@ export const Add = () => {
           />
         </div>
         <div className="col-span-2 w-full">
-          <label htmlFor="department" className="text-sm">
-            Department
-          </label>
-          <input
-            type="text"
-            {...register("department", { required: true })}
-            placeholder="Enter Department"
-            id="department"
-            className={
-              (errors.department
-                ? "placeholder:text-red-400 border-red-400"
-                : "border-gray-300 placeholder:text-zinc-400") +
-              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-            }
-          />
-        </div>
-        <div className="col-span-2 w-full">
-          <label htmlFor="program" className="text-sm">
-            Program
-          </label>
-          <input
-            type="text"
-            {...register("program", { required: true })}
-            placeholder="Enter Program"
-            id="program"
-            className={
-              (errors.program
-                ? "placeholder:text-red-400 border-red-400"
-                : "border-gray-300 placeholder:text-zinc-400") +
-              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-            }
-          />
-        </div>
-        <div className="col-span-2 w-full">
-          <label htmlFor="session" className="text-sm">
-            Session
-          </label>
-          <input
-            type="text"
-            {...register("session", { required: true })}
-            placeholder="Enter Session"
-            id="session"
-            className={
-              (errors.session
-                ? "placeholder:text-red-400 border-red-400"
-                : "border-gray-300 placeholder:text-zinc-400") +
-              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-            }
-          />
-        </div>
-        <div className="col-span-2 w-full">
           <label htmlFor="course" className="text-sm">
             Course
           </label>
@@ -277,6 +226,71 @@ export const Add = () => {
               " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
             }
           />
+        </div>
+        <div className="col-span-2 w-full">
+          <label htmlFor="department" className="text-sm">
+            Department
+          </label>
+          <select
+            type="text"
+            {...register("department", { required: true })}
+            placeholder="Enter Department"
+            id="department"
+            className={
+              (errors.department
+                ? "placeholder:text-red-400 border-red-400"
+                : "border-gray-300 placeholder:text-zinc-400") +
+              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+            }
+          >
+            <option className="text-zinc-700" value="" hidden>Select Department</option>
+            <option className="text-zinc-700" value="Electrical Engineering Department">Electrical Engineering Department</option>
+            <option className="text-zinc-700" value="Civil Engineering Department">Civil Engineering Department</option>
+          </select>
+        </div>
+        <div className="col-span-2 w-full">
+          <label htmlFor="program" className="text-sm">
+            Program
+          </label>
+          <select
+            type="text"
+            {...register("program", { required: true })}
+            placeholder="Enter Program"
+            id="program"
+            className={
+              (errors.program
+                ? "placeholder:text-red-400 border-red-400"
+                : "border-gray-300 placeholder:text-zinc-400") +
+              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+            }
+          >
+            <option className="text-zinc-700" value="" hidden>Select Program</option>
+            <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL ENGINEERING">DIPLOMA IN ELECTRICAL ENGINEERING</option>
+            <option className="text-zinc-700" value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)">DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)</option>
+            <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING">DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING</option>
+          </select>
+        </div>
+        <div className="col-span-2 w-full">
+          <label htmlFor="session" className="text-sm">
+            Session
+          </label>
+          <select
+            type="text"
+            {...register("session", { required: true })}
+            placeholder="Enter Session"
+            id="session"
+            className={
+              (errors.session
+                ? "placeholder:text-red-400 border-red-400"
+                : "border-gray-300 placeholder:text-zinc-400") +
+              " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+            }
+          >
+            <option className="text-zinc-700" value="" hidden>Select Session</option>
+            <option className="text-zinc-700" value="2022/2023">2022/2023</option>
+            <option className="text-zinc-700" value="2023/2024">2023/2024</option>
+
+          </select>
         </div>
         <div className="col-span-2 w-full flex flex-col gap-1">
           <label htmlFor="proposal" className="text-sm">
@@ -372,12 +386,12 @@ export const Add = () => {
         </div>
         <div className="col-span-2 w-full">
           <label htmlFor="youtube" className="text-sm">
-            Youtube Link
+            Youtube Embedded Link
           </label>
           <input
             type="text"
             {...register("youtube", { required: true })}
-            placeholder="Enter Youtube Link"
+            placeholder="Enter Youtube Embedded Link"
             id="youtube"
             className={
               (errors.youtube

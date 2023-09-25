@@ -23,12 +23,16 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline"
 import { produce } from "immer"
+import Link from "next/link"
 
 export const Manage = () => {
   let [data, setData] = useState([])
   const projectsRef = collection(db, "Projects")
 
+  const [project, setProject] = useState({})
+
   const [isEdit, setIsEdit] = useState(false)
+  const [isRead, setIsRead] = useState(false)
   const [spin, setSpin] = useState(false)
 
   const { user } = UseUserAuth()
@@ -297,6 +301,11 @@ export const Manage = () => {
     }
   }
 
+  const onRead = (data) => {
+    setProject(data)
+    setIsRead(true)
+  }
+
   return (
     <>
       <Spinner isSpinner={spin}></Spinner>
@@ -304,7 +313,7 @@ export const Manage = () => {
         <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 lg:gap-4 gap-2 dashboard-height overflow-auto p-4">
           <button
             className="text-primary-1 flex items-center gap-2 text-sm"
-            onClick={() => isEdit(false)}
+            onClick={() => setIsEdit(false)}
             type="button"
           >
             <ArrowLeftCircleIcon className="w-4 h-4" /> Back
@@ -384,57 +393,6 @@ export const Manage = () => {
             />
           </div>
           <div className="col-span-2 w-full">
-            <label htmlFor="department" className="text-sm">
-              Department
-            </label>
-            <input
-              type="text"
-              {...register("department", { required: true })}
-              placeholder="Enter Department"
-              id="department"
-              className={
-                (errors.department
-                  ? "placeholder:text-red-400 border-red-400"
-                  : "border-gray-300 placeholder:text-zinc-400") +
-                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-              }
-            />
-          </div>
-          <div className="col-span-2 w-full">
-            <label htmlFor="program" className="text-sm">
-              Program
-            </label>
-            <input
-              type="text"
-              {...register("program", { required: true })}
-              placeholder="Enter Program"
-              id="program"
-              className={
-                (errors.program
-                  ? "placeholder:text-red-400 border-red-400"
-                  : "border-gray-300 placeholder:text-zinc-400") +
-                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-              }
-            />
-          </div>
-          <div className="col-span-2 w-full">
-            <label htmlFor="session" className="text-sm">
-              Session
-            </label>
-            <input
-              type="text"
-              {...register("session", { required: true })}
-              placeholder="Enter Session"
-              id="session"
-              className={
-                (errors.session
-                  ? "placeholder:text-red-400 border-red-400"
-                  : "border-gray-300 placeholder:text-zinc-400") +
-                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
-              }
-            />
-          </div>
-          <div className="col-span-2 w-full">
             <label htmlFor="course" className="text-sm">
               Course
             </label>
@@ -450,6 +408,71 @@ export const Manage = () => {
                 " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
               }
             />
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="department" className="text-sm">
+              Department
+            </label>
+            <select
+              type="text"
+              {...register("department", { required: true })}
+              placeholder="Enter Department"
+              id="department"
+              className={
+                (errors.department
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            >
+              <option className="text-zinc-700" value="" hidden>Select Department</option>
+              <option className="text-zinc-700" value="Electrical Engineering Department">Electrical Engineering Department</option>
+              <option className="text-zinc-700" value="Civil Engineering Department">Civil Engineering Department</option>
+            </select>
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="program" className="text-sm">
+              Program
+            </label>
+            <select
+              type="text"
+              {...register("program", { required: true })}
+              placeholder="Enter Program"
+              id="program"
+              className={
+                (errors.program
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            >
+              <option className="text-zinc-700" value="" hidden>Select Program</option>
+              <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL ENGINEERING">DIPLOMA IN ELECTRICAL ENGINEERING</option>
+              <option className="text-zinc-700" value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)">DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)</option>
+              <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING">DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING</option>
+            </select>
+          </div>
+          <div className="col-span-2 w-full">
+            <label htmlFor="session" className="text-sm">
+              Session
+            </label>
+            <select
+              type="text"
+              {...register("session", { required: true })}
+              placeholder="Enter Session"
+              id="session"
+              className={
+                (errors.session
+                  ? "placeholder:text-red-400 border-red-400"
+                  : "border-gray-300 placeholder:text-zinc-400") +
+                " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
+              }
+            >
+              <option className="text-zinc-700" value="" hidden>Select Session</option>
+              <option className="text-zinc-700" value="2022/2023">2022/2023</option>
+              <option className="text-zinc-700" value="2023/2024">2023/2024</option>
+
+            </select>
           </div>
           <div className="col-span-2 w-full flex flex-col gap-1">
             <label htmlFor="proposal" className="text-sm">
@@ -669,6 +692,162 @@ export const Manage = () => {
             </button>
           </div>
         </div>
+      ) : isRead ? (
+        <div className="flex flex-col gap-2 w-full dashboard-height overflow-auto p-4">
+          <button
+            className="text-primary-1 flex items-center gap-2 text-sm"
+            onClick={() => setIsRead(false)}
+            type="button"
+          >
+            <ArrowLeftCircleIcon className="w-4 h-4" /> Back
+          </button>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Video:
+            </p>
+            <div className="col-span-5 text-zinc-500">
+              <iframe
+                className="w-1/2 h-96"
+                src={project.youtube}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Title:
+            </p>
+            <p className="col-span-5 text-zinc-500">{project.projectTitle}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Summary/Abstract:
+            </p>
+            <p className="col-span-5 text-zinc-500">{project.summary}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Cost Estimation:
+            </p>
+            <p className="col-span-5 text-zinc-500">RM {project.costEst}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Session:</p>
+            <p className="col-span-5 text-zinc-500">{project.session}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Course:</p>
+            <p className="col-span-5 text-zinc-500">{project.course}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Supervisor:
+            </p>
+            <p className="col-span-5 text-zinc-500">
+              {project.projectSupervisor}
+            </p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Department:</p>
+            <p className="col-span-5 text-zinc-500">{project.department}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Program:</p>
+            <p className="col-span-5 text-zinc-500">{project.program}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Leader:</p>
+            <p className="col-span-5 text-zinc-500">{project.leader}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Group Members:
+            </p>
+            <p className="col-span-5 text-zinc-500">
+              {project.group.map((e, i) => (
+                <span className="block">
+                  {i + 1}. {e}
+                </span>
+              ))}
+            </p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Problem Statement:
+            </p>
+            <p className="col-span-5 text-zinc-500">
+              {project.problemStatement}
+            </p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Objective:
+            </p>
+            <p className="col-span-5 text-zinc-500">
+              {project.projectObjective}
+            </p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Project Scope:
+            </p>
+            <p className="col-span-5 text-zinc-500">{project.problemScope}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Group Members:
+            </p>
+            <p className="col-span-5 text-zinc-500">
+              {project.achivements.map((e, i) => (
+                <span className="block">
+                  {i + 1}. {e}
+                </span>
+              ))}
+            </p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Proposal:</p>
+            <Link href={project.proposal} className="col-span-5 text-primary-1">
+              Download
+            </Link>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Investigation Report:
+            </p>
+            <Link
+              href={project.investigation}
+              className="col-span-5 text-primary-1"
+            >
+              Download
+            </Link>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
+              Final Report:
+            </p>
+            <Link href={project.report} className="col-span-5 text-primary-1">
+              Download
+            </Link>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Youtube:</p>
+            <p className="col-span-5 text-zinc-500">{project.youtube}</p>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">Images:</p>
+            <div className="col-span-5">
+              {project.images.map((e, i) => (
+                <div key={i} className="w-full">
+                  <img src={e} alt="" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 w-full gap-2 p-4">
           {data.map((e, i) => (
@@ -687,11 +866,19 @@ export const Manage = () => {
                 </h1>
                 <p className="text-sm text-zinc-400 text-wrap">{e.summary}</p>
               </div>
-              <div className="grid grid-cols-2 bg-white/5 2xl:rounded-b-xl rounded-b">
+              <div className="grid grid-cols-3 bg-white/5 2xl:rounded-b-xl rounded-b">
+                <button
+                  onClick={() => onRead(e)}
+                  className="2xl:text-base text-sm text-center text-primary-1 py-2 border-r border-zinc-100"
+                  type="button"
+                >
+                  Read
+                </button>
                 <button
                   onClick={() => onEdit(e)}
                   className="2xl:text-base text-sm text-center text-primary-1 py-2 border-r border-zinc-100"
                   type="button"
+                  disabled={e.status == "Approved" ? true : false}
                 >
                   Edit
                 </button>
@@ -699,6 +886,7 @@ export const Manage = () => {
                   onClick={() => onDelete(e)}
                   className="2xl:text-base text-sm text-center text-primary-1 py-2 border-l border-zinc-100"
                   type="button"
+                  disabled={e.status == "Approved" ? true : false}
                 >
                   Delete
                 </button>

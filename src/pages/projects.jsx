@@ -31,9 +31,9 @@ export default function Projects() {
     data.length == 0
       ? []
       : data.filter((project) => {
-          const query = searchQuery.toLowerCase()
-          return project.projectTitle.toLowerCase().includes(query)
-        })
+        const query = searchQuery.toLowerCase()
+        return project.projectTitle.toLowerCase().includes(query)
+      })
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -65,7 +65,7 @@ export default function Projects() {
               </div>
             </div>
             <div className="-my-8 divide-y-2 divide-gray-100">
-              {filtered.map((e, i) => (
+              {filtered.map((e, i) => e.status == "Approved" ? (
                 <div className="py-8 flex flex-wrap md:flex-nowrap">
                   <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                     <span className="font-semibold title-font text-gray-700">
@@ -89,7 +89,7 @@ export default function Projects() {
                     </Link>
                   </div>
                 </div>
-              ))}
+              ) : null)}
             </div>
           </div>
         </section>

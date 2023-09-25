@@ -17,6 +17,8 @@ export { Projects } from "./Public/Home/Projects"
 export { Add } from "./Private/Project/Add"
 export { Manage } from "./Private/Project/Manage"
 export { Read } from "./Private/Project/Read"
+export { Approved } from "./Private/Project/Approved"
+export { Decline } from "./Private/Project/Decline"
 
 // Auth Components
 export { UseUserAuth, UserAuthContextProvider } from "./context/UserAuth"

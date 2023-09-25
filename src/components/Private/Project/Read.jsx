@@ -94,6 +94,21 @@ export const Read = () => {
           </button>
           <div className="grid grid-cols-6 gap-4 w-full">
             <p className="col-span-1 font-medium text-zinc-700">
+              Video:
+            </p>
+            <div className="col-span-5 text-zinc-500">
+              <iframe
+                className="w-1/2 h-96"
+                src={project.youtube}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="col-span-1 font-medium text-zinc-700">
               Project Title:
             </p>
             <p className="col-span-5 text-zinc-500">{project.projectTitle}</p>
@@ -229,9 +244,9 @@ export const Read = () => {
           {data.map((e, i) => (
             <div
               key={i}
-              className="border border-primary-1/50 rounded-md shadow"
+              className="border border-primary-1/50 rounded-md shadow flex flex-col justify-between"
             >
-              <div className="col-span-1 bg-white/5 w-full flex flex-col border-b border-zinc-100 gap-2 2xl:p-4 p-2 2xl:rounded-t-xl rounded-t">
+              <div className="col-span-1 bg-white/5 w-full flex flex-col border-b border-zinc-100 gap-2 2xl:p-4 p-2 2xl:rounded-t-xl rounded-t h-40">
                 <div className="flex justify-end">
                   <p className="text-xs border border-black px-2 py-px rounded-full">
                     {e.status}
