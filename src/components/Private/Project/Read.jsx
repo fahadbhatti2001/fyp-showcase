@@ -93,9 +93,7 @@ export const Read = () => {
             <ArrowLeftCircleIcon className="w-4 h-4" /> Back
           </button>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
-              Video:
-            </p>
+            <p className="col-span-1 font-medium text-zinc-700">Video:</p>
             <div className="col-span-5 text-zinc-500">
               <iframe
                 className="w-1/2 h-96"

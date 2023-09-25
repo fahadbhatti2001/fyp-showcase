@@ -26,7 +26,12 @@ export const Sidebar = (props) => {
 
   const Menus = [
     { title: "Project", icon: FolderIcon, path: "/admin", role: "ADMIN" },
-    { title: "Approved", icon: CheckCircleIcon, path: "/approved", role: "ADMIN" },
+    {
+      title: "Approved",
+      icon: CheckCircleIcon,
+      path: "/approved",
+      role: "ADMIN",
+    },
     { title: "Decline", icon: XCircleIcon, path: "/decline", role: "ADMIN" },
     // { title: "News", icon: NewspaperIcon, path: "/news", role: "ADMIN" },
     {

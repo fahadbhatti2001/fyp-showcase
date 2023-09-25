@@ -243,9 +243,21 @@ export const Add = () => {
               " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
             }
           >
-            <option className="text-zinc-700" value="" hidden>Select Department</option>
-            <option className="text-zinc-700" value="Electrical Engineering Department">Electrical Engineering Department</option>
-            <option className="text-zinc-700" value="Civil Engineering Department">Civil Engineering Department</option>
+            <option className="text-zinc-700" value="" hidden>
+              Select Department
+            </option>
+            <option
+              className="text-zinc-700"
+              value="Electrical Engineering Department"
+            >
+              Electrical Engineering Department
+            </option>
+            <option
+              className="text-zinc-700"
+              value="Civil Engineering Department"
+            >
+              Civil Engineering Department
+            </option>
           </select>
         </div>
         <div className="col-span-2 w-full">
@@ -264,10 +276,27 @@ export const Add = () => {
               " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
             }
           >
-            <option className="text-zinc-700" value="" hidden>Select Program</option>
-            <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL ENGINEERING">DIPLOMA IN ELECTRICAL ENGINEERING</option>
-            <option className="text-zinc-700" value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)">DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)</option>
-            <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING">DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING</option>
+            <option className="text-zinc-700" value="" hidden>
+              Select Program
+            </option>
+            <option
+              className="text-zinc-700"
+              value="DIPLOMA IN ELECTRICAL ENGINEERING"
+            >
+              DIPLOMA IN ELECTRICAL ENGINEERING
+            </option>
+            <option
+              className="text-zinc-700"
+              value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)"
+            >
+              DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)
+            </option>
+            <option
+              className="text-zinc-700"
+              value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING"
+            >
+              DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING
+            </option>
           </select>
         </div>
         <div className="col-span-2 w-full">
@@ -286,10 +315,15 @@ export const Add = () => {
               " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
             }
           >
-            <option className="text-zinc-700" value="" hidden>Select Session</option>
-            <option className="text-zinc-700" value="2022/2023">2022/2023</option>
-            <option className="text-zinc-700" value="2023/2024">2023/2024</option>
-
+            <option className="text-zinc-700" value="" hidden>
+              Select Session
+            </option>
+            <option className="text-zinc-700" value="2022/2023">
+              2022/2023
+            </option>
+            <option className="text-zinc-700" value="2023/2024">
+              2023/2024
+            </option>
           </select>
         </div>
         <div className="col-span-2 w-full flex flex-col gap-1">

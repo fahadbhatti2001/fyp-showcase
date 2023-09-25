@@ -425,9 +425,21 @@ export const Manage = () => {
                 " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
               }
             >
-              <option className="text-zinc-700" value="" hidden>Select Department</option>
-              <option className="text-zinc-700" value="Electrical Engineering Department">Electrical Engineering Department</option>
-              <option className="text-zinc-700" value="Civil Engineering Department">Civil Engineering Department</option>
+              <option className="text-zinc-700" value="" hidden>
+                Select Department
+              </option>
+              <option
+                className="text-zinc-700"
+                value="Electrical Engineering Department"
+              >
+                Electrical Engineering Department
+              </option>
+              <option
+                className="text-zinc-700"
+                value="Civil Engineering Department"
+              >
+                Civil Engineering Department
+              </option>
             </select>
           </div>
           <div className="col-span-2 w-full">
@@ -446,10 +458,27 @@ export const Manage = () => {
                 " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
               }
             >
-              <option className="text-zinc-700" value="" hidden>Select Program</option>
-              <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL ENGINEERING">DIPLOMA IN ELECTRICAL ENGINEERING</option>
-              <option className="text-zinc-700" value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)">DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)</option>
-              <option className="text-zinc-700" value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING">DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING</option>
+              <option className="text-zinc-700" value="" hidden>
+                Select Program
+              </option>
+              <option
+                className="text-zinc-700"
+                value="DIPLOMA IN ELECTRICAL ENGINEERING"
+              >
+                DIPLOMA IN ELECTRICAL ENGINEERING
+              </option>
+              <option
+                className="text-zinc-700"
+                value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)"
+              >
+                DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)
+              </option>
+              <option
+                className="text-zinc-700"
+                value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING"
+              >
+                DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING
+              </option>
             </select>
           </div>
           <div className="col-span-2 w-full">
@@ -468,10 +497,15 @@ export const Manage = () => {
                 " mt-1 rounded shadow outline-none py-1 px-2 bg-white/5 w-full border border-primary-1/50 focus:border-primary-1"
               }
             >
-              <option className="text-zinc-700" value="" hidden>Select Session</option>
-              <option className="text-zinc-700" value="2022/2023">2022/2023</option>
-              <option className="text-zinc-700" value="2023/2024">2023/2024</option>
-
+              <option className="text-zinc-700" value="" hidden>
+                Select Session
+              </option>
+              <option className="text-zinc-700" value="2022/2023">
+                2022/2023
+              </option>
+              <option className="text-zinc-700" value="2023/2024">
+                2023/2024
+              </option>
             </select>
           </div>
           <div className="col-span-2 w-full flex flex-col gap-1">
@@ -702,9 +736,7 @@ export const Manage = () => {
             <ArrowLeftCircleIcon className="w-4 h-4" /> Back
           </button>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
-              Video:
-            </p>
+            <p className="col-span-1 font-medium text-zinc-700">Video:</p>
             <div className="col-span-5 text-zinc-500">
               <iframe
                 className="w-1/2 h-96"
