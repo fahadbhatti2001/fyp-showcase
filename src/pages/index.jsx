@@ -7,9 +7,8 @@ export default function Index() {
       <div className="container">
         <Navbar />
         <Banner />
-        <Projects />
-        <Community />
         <News />
+        <Projects />
         <Footer />
       </div>
     </div>

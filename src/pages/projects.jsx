@@ -32,7 +32,12 @@ export default function Projects() {
       ? []
       : data.filter((project) => {
           const query = searchQuery.toLowerCase()
-          return project.projectTitle.toLowerCase().includes(query)
+          return (
+            project.projectTitle.toLowerCase().includes(query) ||
+            project.department.toLowerCase().includes(query) ||
+            project.program.toLowerCase().includes(query) ||
+            project.session.toLowerCase().includes(query)
+          )
         })
 
   return (
@@ -49,15 +54,76 @@ export default function Projects() {
                 Tailored products designed for every aspect of your teams'
                 needs.
               </p>
-              <div className="flex justify-center mt-4">
+              <div className="flex flex-col items-center mt-4">
                 <div className="md:w-2/3 w-full border flex items-center gap-2 p-2 rounded-full">
                   <MagnifyingGlassIcon className="w-6 h-6" />
                   <input
                     className="outline-none w-full"
                     type="text"
-                    value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
+                </div>
+                <div className="md:w-2/3 w-full grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-0 px-2 md:py-4 p-2">
+                  <select
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="outline-none w-full"
+                  >
+                    <option className="text-zinc-700" value="">
+                      Select Department
+                    </option>
+                    <option
+                      className="text-zinc-700"
+                      value="Electrical Engineering Department"
+                    >
+                      Electrical Engineering Department
+                    </option>
+                    <option
+                      className="text-zinc-700"
+                      value="Civil Engineering Department"
+                    >
+                      Civil Engineering Department
+                    </option>
+                  </select>
+                  <select
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="outline-none w-full"
+                  >
+                    <option className="text-zinc-700" value="">
+                      Select Program
+                    </option>
+                    <option
+                      className="text-zinc-700"
+                      value="DIPLOMA IN ELECTRICAL ENGINEERING"
+                    >
+                      DIPLOMA IN ELECTRICAL ENGINEERING
+                    </option>
+                    <option
+                      className="text-zinc-700"
+                      value="DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)"
+                    >
+                      DIPLOMA IN ELECTRONIC ENGINEERING (COMMUNICATION)
+                    </option>
+                    <option
+                      className="text-zinc-700"
+                      value="DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING"
+                    >
+                      DIPLOMA IN ELECTRICAL AND ELECTRONIC ENGINEERING
+                    </option>
+                  </select>
+                  <select
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="outline-none w-full"
+                  >
+                    <option className="text-zinc-700" value="">
+                      Select Session
+                    </option>
+                    <option className="text-zinc-700" value="2022/2023">
+                      2022/2023
+                    </option>
+                    <option className="text-zinc-700" value="2023/2024">
+                      2023/2024
+                    </option>
+                  </select>
                 </div>
               </div>
               <div className="flex mt-6 justify-center">
@@ -66,13 +132,13 @@ export default function Projects() {
             </div>
             <div className="-my-8 divide-y-2 divide-gray-100">
               {filtered.map((e, i) =>
-                e.status == "Approved" ? (
+                i < 3 && e.status == "Approved" ? (
                   <div className="py-8 flex flex-wrap md:flex-nowrap">
-                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col gap-4">
                       <span className="font-semibold title-font text-gray-700">
                         Program
                       </span>
-                      <span className="mt-1 text-gray-500 text-sm">
+                      <span className="mt-1 text-gray-500 text-sm text-ellipsis overflow-hidden whitespace-nowrap md:w-4/5 w-full">
                         {e.program}
                       </span>
                     </div>
@@ -80,7 +146,7 @@ export default function Projects() {
                       <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">
                         {e.projectTitle}
                       </h2>
-                      <p className="leading-relaxed">{e.summary}</p>
+                      <p className="leading-relaxed text-wrap">{e.summary}</p>
                       <Link
                         href={`/project?id=${e.id}`}
                         className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4"

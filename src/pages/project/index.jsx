@@ -53,56 +53,97 @@ export default function Project() {
         <Navbar />
         <div className="flex flex-col gap-2 w-full p-4">
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Video:
+            </p>
+            <div className="md:col-span-5 col-span-6 text-zinc-500">
+              <iframe
+                className="md:w-1/2 w-full md:h-96 h-40"
+                src={project.youtube}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div className="grid grid-cols-6 gap-4 w-full">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Title:
             </p>
-            <p className="col-span-5 text-zinc-500">{project.projectTitle}</p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.projectTitle}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Summary/Abstract:
             </p>
-            <p className="col-span-5 text-zinc-500">{project.summary}</p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.summary}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Cost Estimation:
             </p>
-            <p className="col-span-5 text-zinc-500">RM {project.costEst}</p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              RM {project.costEst}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Session:</p>
-            <p className="col-span-5 text-zinc-500">{project.session}</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Session:
+            </p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.session}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Course:</p>
-            <p className="col-span-5 text-zinc-500">{project.course}</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Course:
+            </p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.course}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Supervisor:
             </p>
-            <p className="col-span-5 text-zinc-500">
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
               {project.projectSupervisor}
             </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Department:</p>
-            <p className="col-span-5 text-zinc-500">{project.department}</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Department:
+            </p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.department}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Program:</p>
-            <p className="col-span-5 text-zinc-500">{project.program}</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Program:
+            </p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.program}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Leader:</p>
-            <p className="col-span-5 text-zinc-500">{project.leader}</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Leader:
+            </p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.leader}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Group Members:
             </p>
-            <p className="col-span-5 text-zinc-500">
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
               {project.group.map((e, i) => (
                 <span className="block">
                   {i + 1}. {e}
@@ -111,32 +152,34 @@ export default function Project() {
             </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Problem Statement:
             </p>
-            <p className="col-span-5 text-zinc-500">
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
               {project.problemStatement}
             </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Objective:
             </p>
-            <p className="col-span-5 text-zinc-500">
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
               {project.projectObjective}
             </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Project Scope:
             </p>
-            <p className="col-span-5 text-zinc-500">{project.problemScope}</p>
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
+              {project.problemScope}
+            </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Group Members:
             </p>
-            <p className="col-span-5 text-zinc-500">
+            <p className="md:col-span-5 col-span-6 text-zinc-500">
               {project.achivements.map((e, i) => (
                 <span className="block">
                   {i + 1}. {e}
@@ -145,13 +188,15 @@ export default function Project() {
             </p>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Proposal:</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Proposal:
+            </p>
             <Link href={project.proposal} className="col-span-5 text-primary-1">
               Download
             </Link>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Investigation Report:
             </p>
             <Link
@@ -162,7 +207,7 @@ export default function Project() {
             </Link>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
               Final Report:
             </p>
             <Link href={project.report} className="col-span-5 text-primary-1">
@@ -170,11 +215,9 @@ export default function Project() {
             </Link>
           </div>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Youtube:</p>
-            <p className="col-span-5 text-zinc-500">{project.youtube}</p>
-          </div>
-          <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="col-span-1 font-medium text-zinc-700">Images:</p>
+            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
+              Images:
+            </p>
             <div className="col-span-5">
               {project.images.map((e, i) => (
                 <div key={i} className="w-full">

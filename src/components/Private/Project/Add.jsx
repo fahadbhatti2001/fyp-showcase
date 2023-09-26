@@ -519,12 +519,12 @@ export const Add = () => {
         </div>
         <div className="lg:col-span-3 col-span-2 w-full">
           <label htmlFor="problemScope" className="text-sm">
-            Problem Scope
+            Project Scope
           </label>
           <textarea
             type="text"
             {...register("problemScope", { required: true })}
-            placeholder="Enter Problem Scope"
+            placeholder="Enter Project Scope"
             id="problemScope"
             className={
               (errors.problemScope

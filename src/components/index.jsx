@@ -12,6 +12,7 @@ export { News } from "./Public/Home/News"
 export { Banner } from "./Public/Home/Banner"
 export { Community } from "./Public/Home/Community"
 export { Projects } from "./Public/Home/Projects"
+export { ManageNews } from "./Private/News/Manage"
 
 // Private Components
 export { Add } from "./Private/Project/Add"

@@ -33,7 +33,7 @@ export const Sidebar = (props) => {
       role: "ADMIN",
     },
     { title: "Decline", icon: XCircleIcon, path: "/decline", role: "ADMIN" },
-    // { title: "News", icon: NewspaperIcon, path: "/news", role: "ADMIN" },
+    { title: "News", icon: NewspaperIcon, path: "/news", role: "ADMIN" },
     {
       title: "My Project",
       icon: FolderIcon,
