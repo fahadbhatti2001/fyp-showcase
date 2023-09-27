@@ -63,10 +63,10 @@ export default function Projects() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <div className="md:w-2/3 w-full grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-0 px-2 md:py-4 p-2">
+                <div className="md:w-2/3 w-full grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-1 px-2 md:py-4 p-2">
                   <select
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="outline-none w-full"
+                    className="outline-none w-full bg-transparent"
                   >
                     <option className="text-zinc-700" value="">
                       Select Department
@@ -86,7 +86,7 @@ export default function Projects() {
                   </select>
                   <select
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="outline-none w-full"
+                    className="outline-none w-full bg-transparent"
                   >
                     <option className="text-zinc-700" value="">
                       Select Program
@@ -112,7 +112,7 @@ export default function Projects() {
                   </select>
                   <select
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="outline-none w-full"
+                    className="outline-none w-full bg-transparent"
                   >
                     <option className="text-zinc-700" value="">
                       Select Session

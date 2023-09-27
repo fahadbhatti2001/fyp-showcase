@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore"
-import { db } from "@/FirebaseConfig"
-import { UseUserAuth } from "@/components"
+import { collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"
+import { db, storage } from "@/FirebaseConfig"
+import { Spinner, UseUserAuth } from "@/components"
 import Swal from "sweetalert2"
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline"
 import { produce } from "immer"
 import Link from "next/link"
+import { deleteObject, ref } from "firebase/storage"
 
 export const Decline = () => {
   let [data, setData] = useState([])
   const projectsRef = collection(db, "Projects")
 
   const [isRead, setIsRead] = useState(false)
+  const [spin, setSpin] = useState(false)
 
   const [project, setProject] = useState({})
 
@@ -33,6 +35,63 @@ export const Decline = () => {
       }
     }
   }, [user])
+
+  const onDelete = async (dataa) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#FF6D35",
+        cancelButtonColor: "#d33333",
+        confirmButtonText: "Yes, Delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setSpin(true)
+          const projectDoc = doc(db, "Projects", dataa.id)
+          for (const [i, file] of dataa.images.entries()) {
+            const deleteImage = ref(storage, file)
+            await deleteObject(deleteImage)
+          }
+          const deleteProposal = ref(storage, dataa.proposal)
+          const deleteInvestigation = ref(storage, dataa.investigation)
+          const deleteReport = ref(storage, dataa.report)
+          await deleteDoc(projectDoc)
+          await deleteObject(deleteProposal)
+          await deleteObject(deleteInvestigation)
+          await deleteObject(deleteReport)
+          const newData = data.filter((e) => e.id != dataa.id)
+          setData(newData)
+          setSpin(false)
+          Swal.fire({
+            icon: "success",
+            title: "Project Deleted!",
+            toast: true,
+            animation: true,
+            position: "top",
+            timer: 2000,
+            iconColor: "#27272a",
+            showCancelButton: false,
+            showConfirmButton: false,
+          })
+        }
+      })
+    } catch (error) {
+      setSpin(false)
+      Swal.fire({
+        icon: "error",
+        title: "Unable to delete project!",
+        toast: true,
+        animation: true,
+        position: "top",
+        timer: 2000,
+        iconColor: "#27272a",
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
+    }
+  }
 
   const onRead = (data) => {
     setProject(data)
@@ -83,6 +142,7 @@ export const Decline = () => {
 
   return (
     <>
+      <Spinner isSpinner={spin}></Spinner>
       {isRead ? (
         <div className="flex flex-col gap-2 w-full dashboard-height overflow-auto p-4">
           <button
@@ -98,7 +158,7 @@ export const Decline = () => {
             </p>
             <div className="md:col-span-5 col-span-6 text-zinc-500">
               <iframe
-                className="md:w-1/2 w-full md:h-96 h-40"
+                className="lg:w-1/2 w-full lg:h-96 h-40"
                 src={project.youtube}
                 title="YouTube video player"
                 frameborder="0"
@@ -287,7 +347,7 @@ export const Decline = () => {
                   </h1>
                   <p className="text-sm text-zinc-400 text-wrap">{e.summary}</p>
                 </div>
-                <div className="grid grid-cols-3 bg-white/5 2xl:rounded-b-xl rounded-b">
+                <div className="grid grid-cols-4 bg-white/5 2xl:rounded-b-xl rounded-b">
                   <button
                     onClick={() => {
                       onRead(e)
@@ -310,6 +370,13 @@ export const Decline = () => {
                     type="button"
                   >
                     Pending
+                  </button>
+                  <button
+                    onClick={() => onDelete(e)}
+                    className="2xl:text-base text-sm text-center text-primary-1 py-2 border-l border-zinc-100"
+                    type="button"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>

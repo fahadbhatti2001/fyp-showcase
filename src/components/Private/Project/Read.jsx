@@ -98,7 +98,7 @@ export const Read = () => {
             </p>
             <div className="md:col-span-5 col-span-6 text-zinc-500">
               <iframe
-                className="md:w-1/2 w-full md:h-96 h-40"
+                className="lg:w-1/2 w-full lg:h-96 h-40"
                 src={project.youtube}
                 title="YouTube video player"
                 frameborder="0"
