@@ -45,7 +45,7 @@ export const Navbar = () => {
       ) : (
         <Link
           href={profile.role == "ADMIN" ? "/admin" : "/dashboard"}
-          className=""
+          className="text-primary-1"
         >
           {profile.name}
         </Link>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import {
   ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline"
 import Link from "next/link"
@@ -25,20 +27,33 @@ export default function Projects() {
     getData()
   }, [])
 
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
+
   const [searchQuery, setSearchQuery] = useState("")
 
   const filtered =
     data.length == 0
       ? []
-      : data.filter((project) => {
-          const query = searchQuery.toLowerCase()
-          return (
-            project.projectTitle.toLowerCase().includes(query) ||
-            project.department.toLowerCase().includes(query) ||
-            project.program.toLowerCase().includes(query) ||
-            project.session.toLowerCase().includes(query)
-          )
-        })
+      : currentData.filter((project) => {
+        const query = searchQuery.toLowerCase()
+        return (
+          project.projectTitle.toLowerCase().includes(query) ||
+          project.department.toLowerCase().includes(query) ||
+          project.program.toLowerCase().includes(query) ||
+          project.session.toLowerCase().includes(query)
+        )
+      })
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -158,6 +173,23 @@ export default function Projects() {
                   </div>
                 ) : null,
               )}
+            </div>
+            <div className="flex justify-center items-center py-8 gap-2">
+              <button
+                className="text-primary-4 w-8 h-8 bg-primary-1 rounded-full flex justify-center items-center"
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                <ChevronLeftIcon className="w-5 h-5 text-white" />
+              </button>
+              <span className="text-primary-1">{currentPage}</span>
+              <button
+                className="text-primary-4 w-8 h-8 bg-primary-1 rounded-full flex justify-center items-center"
+                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                <ChevronRightIcon className="w-5 h-5 text-white" />
+              </button>
             </div>
           </div>
         </section>
