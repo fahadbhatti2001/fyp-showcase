@@ -146,32 +146,31 @@ export default function Projects() {
               </div>
             </div>
             <div className="-my-8 divide-y-2 divide-gray-100">
-              {filtered.map((e, i) =>
-                i < 3 && e.status == "Approved" ? (
-                  <div className="py-8 flex flex-wrap md:flex-nowrap">
-                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col gap-4">
-                      <span className="font-semibold title-font text-gray-700">
-                        Program
-                      </span>
-                      <span className="mt-1 text-gray-500 text-sm text-ellipsis overflow-hidden whitespace-nowrap md:w-4/5 w-full">
-                        {e.program}
-                      </span>
-                    </div>
-                    <div className="md:flex-grow">
-                      <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">
-                        {e.projectTitle}
-                      </h2>
-                      <p className="leading-relaxed text-wrap">{e.summary}</p>
-                      <Link
-                        href={`/project?id=${e.id}`}
-                        className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4"
-                      >
-                        Learn More
-                        <ArrowRightIcon className="w-4 h-4" />
-                      </Link>
-                    </div>
+              {filtered.map((e, i) => e.status == "Approved" ? (
+                <div className="py-8 flex flex-wrap md:flex-nowrap">
+                  <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col gap-4">
+                    <span className="font-semibold title-font text-gray-700">
+                      Program
+                    </span>
+                    <span className="mt-1 text-gray-500 text-sm text-ellipsis overflow-hidden whitespace-nowrap md:w-4/5 w-full">
+                      {e.program}
+                    </span>
                   </div>
-                ) : null,
+                  <div className="md:flex-grow">
+                    <h2 className="text-2xl font-medium text-gray-900 title-font mb-2">
+                      {e.projectTitle}
+                    </h2>
+                    <p className="leading-relaxed text-wrap">{e.summary}</p>
+                    <Link
+                      href={`/project?id=${e.id}`}
+                      className="text-primary-1 flex gap-2 hover:gap-3 transition-all ease-in-out duration-75 items-center mt-4"
+                    >
+                      Learn More
+                      <ArrowRightIcon className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              ) : null,
               )}
             </div>
             <div className="flex justify-center items-center py-8 gap-2">
