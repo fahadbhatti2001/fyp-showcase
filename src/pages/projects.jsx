@@ -65,10 +65,6 @@ export default function Projects() {
               <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
                 Latest Projects
               </h1>
-              <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-500">
-                Tailored products designed for every aspect of your teams'
-                needs.
-              </p>
               <div className="flex flex-col items-center mt-4">
                 <div className="md:w-2/3 w-full border flex items-center gap-2 p-2 rounded-full">
                   <MagnifyingGlassIcon className="w-6 h-6" />

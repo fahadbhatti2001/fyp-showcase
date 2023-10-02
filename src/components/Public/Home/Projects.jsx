@@ -28,9 +28,6 @@ export const Projects = () => {
           <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
             Latest Projects
           </h1>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-500">
-            Tailored products designed for every aspect of your teams' needs.
-          </p>
           <div className="flex mt-6 justify-center">
             <div className="w-16 h-1 rounded-full bg-primary-1 inline-flex"></div>
           </div>

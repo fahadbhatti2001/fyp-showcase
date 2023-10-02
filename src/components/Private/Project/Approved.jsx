@@ -93,12 +93,9 @@ export const Approved = () => {
             <ArrowLeftCircleIcon className="w-4 h-4" /> Back
           </button>
           <div className="grid grid-cols-6 gap-4 w-full">
-            <p className="md:col-span-1 col-span-6 font-medium text-zinc-700">
-              Video:
-            </p>
-            <div className="md:col-span-5 col-span-6 text-zinc-500">
+            <div className="col-span-6 text-zinc-500">
               <iframe
-                className="lg:w-1/2 w-full lg:h-96 h-40"
+                className="w-full h-[90vh]"
                 src={project.youtube}
                 title="YouTube video player"
                 frameborder="0"

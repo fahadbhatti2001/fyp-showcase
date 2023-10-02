@@ -75,7 +75,7 @@ export const Sidebar = (props) => {
           <span className="text-xl md:block hidden">Final Year Project</span>
           <span className="text-xl md:hidden block">FYP</span>
         </a>
-        <p className="">{profile.name}</p>
+        <p className="text-primary-1">{profile.name}</p>
       </div>
       <div className="flex bg-white">
         <div className="w-16 body-height px-3 relative duration-300 flex flex-col justify-between">
