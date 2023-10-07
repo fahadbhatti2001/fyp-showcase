@@ -10,7 +10,6 @@ export { Login } from "./Public/Login"
 export { Register } from "./Public/Register"
 export { News } from "./Public/Home/News"
 export { Banner } from "./Public/Home/Banner"
-export { Community } from "./Public/Home/Community"
 export { Projects } from "./Public/Home/Projects"
 export { ManageNews } from "./Private/News/Manage"
 
@@ -23,7 +22,3 @@ export { Decline } from "./Private/Project/Decline"
 
 // Auth Components
 export { UseUserAuth, UserAuthContextProvider } from "./context/UserAuth"
-
-// Dashboard Components
-export { Admin } from "./Dashboards/Admin"
-export { Student } from "./Dashboards/Student"
