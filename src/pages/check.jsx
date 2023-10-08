@@ -9,6 +9,8 @@ export default function check() {
 
     const [showImages, setShowImages] = useState([])
 
+    const imageName = new Date().getTime()
+
     const handleImage = async (event) => {
         if (event.target.files && event.target.files[0]) {
             setImages([...images, event.target.files[0]])
@@ -21,11 +23,16 @@ export default function check() {
         setImages([...images.filter((_, index) => index !== indexToRemove)])
     }
 
-    const onSubmit = async () => {
-        for (const [i, file] of images.entries()) {
-            await api.UploadApi.File({ file });
-        }
+    const onSubmit = () => {
+        images.forEach((element, i) => {
+            const formData = new FormData();
+            const format = element.name.split(".")[1];
+            const renamedFile = new File([element], `${i + imageName}_${element.name}`, { type: element.type });
+            formData.append('fileToUpload', renamedFile);
+            api.UploadApi.File(formData);
+        });
     }
+
 
     return (
         <>
@@ -39,6 +46,8 @@ export default function check() {
                     className="hidden"
                     onChange={(e) => handleImage(e)}
                     accept="image/png, image/jpg, image/jpeg"
+                    name="fileToUpload"
+
                 />
                 <div className="flex flex-wrap gap-2 relative z-0">
                     {showImages.map((e, i) => (

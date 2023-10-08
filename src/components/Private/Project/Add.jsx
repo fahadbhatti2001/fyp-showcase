@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-import { db, storage } from "@/FirebaseConfig"
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { db } from "@/FirebaseConfig"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 import { Chips, Spinner, UseUserAuth } from "@/components"
 import Swal from "sweetalert2"
 import { CameraIcon, XCircleIcon } from "@heroicons/react/24/outline"
 import Image from "next/image"
+import { api } from "@/api"
 
 export const Add = () => {
   const { user } = UseUserAuth()
@@ -48,29 +48,32 @@ export const Add = () => {
     try {
       setSpin(true)
       const urls = []
-      for (const [i, file] of images.entries()) {
-        const imageRef = ref(storage, `images/${imageName + i}`)
-        const snapshot = await uploadBytes(imageRef, file)
-        const downloadURL = await getDownloadURL(snapshot.ref)
-        urls.push(downloadURL)
-      }
+      images.forEach((element, i) => {
+        const formData = new FormData();
+        const format = element.name.split(".")[1];
+        const renamedFile = new File([element], `${i + imageName}_${element.name}`, { type: element.type });
+        formData.append('fileToUpload', renamedFile);
+        api.UploadApi.File(formData);
+        urls.push(`${process.env.NEXT_PUBLIC_API_BASE}/uploads/${i + imageName}_${element.name}.${format}`)
+      });
 
-      const proposalRef = ref(storage, `files/${proposal.name}`)
-      const snapshotProposal = await uploadBytes(proposalRef, proposal)
-      const downloadProposalURL = await getDownloadURL(snapshotProposal.ref)
+      const formDataProposal = new FormData();
+      const formatProposal = proposal.name.split(".")[1];
+      const renamedFileProposal = new File([proposal], `${imageName}_${proposal.name}`, { type: proposal.type });
+      formDataProposal.append('fileToUpload', renamedFileProposal);
+      api.UploadApi.File(formDataProposal);
 
-      const investigationRef = ref(storage, `files/${investigation.name}`)
-      const snapshotInvestigation = await uploadBytes(
-        investigationRef,
-        investigation,
-      )
-      const downloadInvestigationURL = await getDownloadURL(
-        snapshotInvestigation.ref,
-      )
+      const formDataInvestigation = new FormData();
+      const formatInvestigation = investigation.name.split(".")[1];
+      const renamedFileInvestigation = new File([investigation], `${imageName}_${investigation.name}`, { type: investigation.type });
+      formDataInvestigation.append('fileToUpload', renamedFileInvestigation);
+      api.UploadApi.File(formDataInvestigation);
 
-      const reportRef = ref(storage, `files/${report.name}`)
-      const snapshotReport = await uploadBytes(reportRef, report)
-      const downloadReportURL = await getDownloadURL(snapshotReport.ref)
+      const formDataReport = new FormData();
+      const formatReport = report.name.split(".")[1];
+      const renamedFileReport = new File([report], `${imageName}_${report.name}`, { type: report.type });
+      formDataReport.append('fileToUpload', renamedFileReport);
+      api.UploadApi.File(formDataReport);
 
       const inputDataCopy = { ...data }
       inputDataCopy.timestamp = serverTimestamp()
@@ -80,9 +83,9 @@ export const Add = () => {
       inputDataCopy.group = group
       inputDataCopy.userID = user.uid
 
-      inputDataCopy.proposal = downloadProposalURL
-      inputDataCopy.investigation = downloadInvestigationURL
-      inputDataCopy.report = downloadReportURL
+      inputDataCopy.proposal = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${proposal.name}.${formatProposal}`
+      inputDataCopy.investigation = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${investigation.name}.${formatInvestigation}`
+      inputDataCopy.report = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${report.name}.${formatReport}`
 
       await addDoc(collection(db, "Projects"), inputDataCopy)
       reset({
@@ -146,6 +149,7 @@ export const Add = () => {
             className="hidden"
             onChange={(e) => handleImage(e)}
             accept="image/png, image/jpg, image/jpeg"
+            name="fileToUpload"
           />
           <div className="flex flex-wrap gap-2 relative z-0">
             {showImages.map((e, i) => (

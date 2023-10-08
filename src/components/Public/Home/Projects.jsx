@@ -61,7 +61,7 @@ export const Projects = () => {
             ) : null,
           )}
         </div>
-        <button class="flex mx-auto mt-16 text-white bg-primary-1 border-0 py-2 px-8 focus:outline-none hover:bg-opacity-90 rounded text-lg">
+        <button className="flex mx-auto mt-16 text-white bg-primary-1 border-0 py-2 px-8 focus:outline-none hover:bg-opacity-90 rounded text-lg">
           <Link href="/projects">View All</Link>
         </button>
       </div>
