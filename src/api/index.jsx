@@ -1,5 +1,5 @@
-import { UploadApi } from '@/api/Upload'
+import { UploadApi } from "@/api/Upload"
 
 export const api = {
-    UploadApi
-} 
+  UploadApi,
+}

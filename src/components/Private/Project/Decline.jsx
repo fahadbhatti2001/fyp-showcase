@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore"
 import { db, storage } from "@/FirebaseConfig"
 import { Spinner, UseUserAuth } from "@/components"
 import Swal from "sweetalert2"

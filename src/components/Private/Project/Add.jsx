@@ -49,31 +49,47 @@ export const Add = () => {
       setSpin(true)
       const urls = []
       images.forEach((element, i) => {
-        const formData = new FormData();
-        const format = element.name.split(".")[1];
-        const renamedFile = new File([element], `${i + imageName}_${element.name}`, { type: element.type });
-        formData.append('fileToUpload', renamedFile);
-        api.UploadApi.File(formData);
-        urls.push(`${process.env.NEXT_PUBLIC_API_BASE}/uploads/${i + imageName}_${element.name}.${format}`)
-      });
+        const formData = new FormData()
+        const renamedFile = new File(
+          [element],
+          `${i + imageName}_${element.name.replaceAll(" ", "_")}`,
+          { type: element.type },
+        )
+        formData.append("fileToUpload", renamedFile)
+        api.UploadApi.File(formData)
+        urls.push(
+          `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${
+            i + imageName
+          }_${element.name.replaceAll(" ", "_")}`,
+        )
+      })
 
-      const formDataProposal = new FormData();
-      const formatProposal = proposal.name.split(".")[1];
-      const renamedFileProposal = new File([proposal], `${imageName}_${proposal.name}`, { type: proposal.type });
-      formDataProposal.append('fileToUpload', renamedFileProposal);
-      api.UploadApi.File(formDataProposal);
+      const formDataProposal = new FormData()
+      const renamedFileProposal = new File(
+        [proposal],
+        `${imageName}_${proposal.name.replaceAll(" ", "_")}`,
+        { type: proposal.type },
+      )
+      formDataProposal.append("fileToUpload", renamedFileProposal)
+      api.UploadApi.File(formDataProposal)
 
-      const formDataInvestigation = new FormData();
-      const formatInvestigation = investigation.name.split(".")[1];
-      const renamedFileInvestigation = new File([investigation], `${imageName}_${investigation.name}`, { type: investigation.type });
-      formDataInvestigation.append('fileToUpload', renamedFileInvestigation);
-      api.UploadApi.File(formDataInvestigation);
+      const formDataInvestigation = new FormData()
+      const renamedFileInvestigation = new File(
+        [investigation],
+        `${imageName}_${investigation.name.replaceAll(" ", "_")}`,
+        { type: investigation.type },
+      )
+      formDataInvestigation.append("fileToUpload", renamedFileInvestigation)
+      api.UploadApi.File(formDataInvestigation)
 
-      const formDataReport = new FormData();
-      const formatReport = report.name.split(".")[1];
-      const renamedFileReport = new File([report], `${imageName}_${report.name}`, { type: report.type });
-      formDataReport.append('fileToUpload', renamedFileReport);
-      api.UploadApi.File(formDataReport);
+      const formDataReport = new FormData()
+      const renamedFileReport = new File(
+        [report],
+        `${imageName}_${report.name.replaceAll(" ", "_")}`,
+        { type: report.type },
+      )
+      formDataReport.append("fileToUpload", renamedFileReport)
+      api.UploadApi.File(formDataReport)
 
       const inputDataCopy = { ...data }
       inputDataCopy.timestamp = serverTimestamp()
@@ -83,9 +99,15 @@ export const Add = () => {
       inputDataCopy.group = group
       inputDataCopy.userID = user.uid
 
-      inputDataCopy.proposal = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${proposal.name}.${formatProposal}`
-      inputDataCopy.investigation = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${investigation.name}.${formatInvestigation}`
-      inputDataCopy.report = `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${imageName}_${report.name}.${formatReport}`
+      inputDataCopy.proposal = `${
+        process.env.NEXT_PUBLIC_API_BASE
+      }/uploads/${imageName}_${proposal.name.replaceAll(" ", "_")}`
+      inputDataCopy.investigation = `${
+        process.env.NEXT_PUBLIC_API_BASE
+      }/uploads/${imageName}_${investigation.name.replaceAll(" ", "_")}`
+      inputDataCopy.report = `${
+        process.env.NEXT_PUBLIC_API_BASE
+      }/uploads/${imageName}_${report.name.replaceAll(" ", "_")}`
 
       await addDoc(collection(db, "Projects"), inputDataCopy)
       reset({

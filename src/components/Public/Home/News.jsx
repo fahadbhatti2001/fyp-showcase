@@ -29,7 +29,9 @@ export const News = () => {
           <div className="w-16 h-1 rounded-full bg-primary-1 inline-flex"></div>
         </div>
         <div className="flex justify-center">
-          <p className="leading-relaxed text-lg text-center md:w-1/2 w-full">{news}</p>
+          <p className="leading-relaxed text-lg text-center md:w-1/2 w-full">
+            {news}
+          </p>
         </div>
       </div>
     </section>
