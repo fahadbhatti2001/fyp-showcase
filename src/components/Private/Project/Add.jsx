@@ -108,7 +108,6 @@ export const Add = () => {
       inputDataCopy.report = `${
         process.env.NEXT_PUBLIC_API_BASE
       }/uploads/${imageName}_${report.name.replaceAll(" ", "_")}`
-
       await addDoc(collection(db, "Projects"), inputDataCopy)
       reset({
         projectTitle: "",
