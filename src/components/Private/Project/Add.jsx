@@ -98,7 +98,6 @@ export const Add = () => {
       inputDataCopy.achivements = achivements
       inputDataCopy.group = group
       inputDataCopy.userID = user.uid
-
       inputDataCopy.proposal = `${
         process.env.NEXT_PUBLIC_API_BASE
       }/uploads/${imageName}_${proposal.name.replaceAll(" ", "_")}`
