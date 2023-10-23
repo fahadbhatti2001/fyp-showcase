@@ -1,10 +1,15 @@
 import { API } from "./API"
 
 export const UploadApi = {
-  File: async (form) => {
+  Upload: async (form) => {
     return API.post({
-      url: "/uploads/upload.php",
+      url: "/api/upload.php",
       data: form,
+    })
+  },
+  Delete: async (form) => {
+    return API.delete({
+      url: "/api/delete.php?filename=" + form,
     })
   },
 }

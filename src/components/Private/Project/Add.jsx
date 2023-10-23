@@ -56,7 +56,7 @@ export const Add = () => {
           { type: element.type },
         )
         formData.append("fileToUpload", renamedFile)
-        api.UploadApi.File(formData)
+        api.UploadApi.Upload(formData)
         urls.push(
           `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${
             i + imageName
@@ -71,7 +71,7 @@ export const Add = () => {
         { type: proposal.type },
       )
       formDataProposal.append("fileToUpload", renamedFileProposal)
-      api.UploadApi.File(formDataProposal)
+      api.UploadApi.Upload(formDataProposal)
 
       const formDataInvestigation = new FormData()
       const renamedFileInvestigation = new File(
@@ -80,7 +80,7 @@ export const Add = () => {
         { type: investigation.type },
       )
       formDataInvestigation.append("fileToUpload", renamedFileInvestigation)
-      api.UploadApi.File(formDataInvestigation)
+      api.UploadApi.Upload(formDataInvestigation)
 
       const formDataReport = new FormData()
       const renamedFileReport = new File(
@@ -89,7 +89,7 @@ export const Add = () => {
         { type: report.type },
       )
       formDataReport.append("fileToUpload", renamedFileReport)
-      api.UploadApi.File(formDataReport)
+      api.UploadApi.Upload(formDataReport)
 
       const inputDataCopy = { ...data }
       inputDataCopy.timestamp = serverTimestamp()

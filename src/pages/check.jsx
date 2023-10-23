@@ -32,7 +32,7 @@ export default function check() {
         { type: element.type },
       )
       formData.append("fileToUpload", renamedFile)
-      api.UploadApi.File(formData)
+      api.UploadApi.Upload(formData)
     })
   }
 
