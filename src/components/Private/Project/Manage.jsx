@@ -24,6 +24,7 @@ import {
 } from "@heroicons/react/24/outline"
 import { produce } from "immer"
 import Link from "next/link"
+import { api } from "@/api"
 
 export const Manage = () => {
   let [data, setData] = useState([])
@@ -100,16 +101,12 @@ export const Manage = () => {
           setSpin(true)
           const projectDoc = doc(db, "Projects", data.id)
           for (const [i, file] of data.images.entries()) {
-            const deleteImage = ref(storage, file)
-            await deleteObject(deleteImage)
+            api.UploadApi.Delete(file)
           }
-          const deleteProposal = ref(storage, data.proposal)
-          const deleteInvestigation = ref(storage, data.investigation)
-          const deleteReport = ref(storage, data.report)
+          api.UploadApi.Delete(data.proposal)
+          api.UploadApi.Delete(data.investigation)
+          api.UploadApi.Delete(data.report)
           await deleteDoc(projectDoc)
-          await deleteObject(deleteProposal)
-          await deleteObject(deleteInvestigation)
-          await deleteObject(deleteReport)
           const newData = data.filter((e) => e.id != id)
           setData(newData)
           setSpin(false)

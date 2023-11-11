@@ -58,7 +58,7 @@ export const Add = () => {
         formData.append("fileToUpload", renamedFile)
         api.UploadApi.Upload(formData)
         urls.push(
-          `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${
+          `${process.env.NEXT_PUBLIC_API_BASE}/api/${
             i + imageName
           }_${element.name.replaceAll(" ", "_")}`,
         )
@@ -100,13 +100,13 @@ export const Add = () => {
       inputDataCopy.userID = user.uid
       inputDataCopy.proposal = `${
         process.env.NEXT_PUBLIC_API_BASE
-      }/uploads/${imageName}_${proposal.name.replaceAll(" ", "_")}`
+      }/api/${imageName}_${proposal.name.replaceAll(" ", "_")}`
       inputDataCopy.investigation = `${
         process.env.NEXT_PUBLIC_API_BASE
-      }/uploads/${imageName}_${investigation.name.replaceAll(" ", "_")}`
+      }/api/${imageName}_${investigation.name.replaceAll(" ", "_")}`
       inputDataCopy.report = `${
         process.env.NEXT_PUBLIC_API_BASE
-      }/uploads/${imageName}_${report.name.replaceAll(" ", "_")}`
+      }/api/${imageName}_${report.name.replaceAll(" ", "_")}`
       await addDoc(collection(db, "Projects"), inputDataCopy)
       reset({
         projectTitle: "",
