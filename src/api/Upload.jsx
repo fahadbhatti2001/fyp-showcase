@@ -3,13 +3,13 @@ import { API } from "./API"
 export const UploadApi = {
   Upload: async (form) => {
     return API.post({
-      url: "/api/upload.php",
+      url: "/uploads/upload.php",
       data: form,
     })
   },
   Delete: async (form) => {
     return API.delete({
-      url: "/api/delete.php?filename=" + form,
+      url: "/uploads/delete.php?filename=" + form.split("uploads/")[1],
     })
   },
 }

@@ -86,7 +86,7 @@ export const Manage = () => {
     setImages([...images.filter((_, index) => index !== indexToRemove)])
   }
 
-  const onDelete = async (data) => {
+  const onDelete = async (dataa) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -99,15 +99,16 @@ export const Manage = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           setSpin(true)
-          const projectDoc = doc(db, "Projects", data.id)
-          for (const [i, file] of data.images.entries()) {
+          const projectDoc = doc(db, "Projects", dataa.id)
+          for (const [i, file] of dataa.images.entries()) {
             api.UploadApi.Delete(file)
           }
-          api.UploadApi.Delete(data.proposal)
-          api.UploadApi.Delete(data.investigation)
-          api.UploadApi.Delete(data.report)
+          api.UploadApi.Delete(dataa.proposal)
+          api.UploadApi.Delete(dataa.investigation)
+          api.UploadApi.Delete(dataa.report)
           await deleteDoc(projectDoc)
-          const newData = data.filter((e) => e.id != id)
+          console.log(data)
+          const newData = data.filter((e) => e.id != dataa.id)
           setData(newData)
           setSpin(false)
           Swal.fire({
@@ -164,7 +165,7 @@ export const Manage = () => {
     setIsEdit(true)
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (dataa) => {
     try {
       setSpin(true)
       const urls = []
@@ -172,10 +173,19 @@ export const Manage = () => {
         if (typeof file === "string") {
           urls.push(file)
         } else {
-          const imageRef = ref(storage, `images/${imageName + i}`)
-          const snapshot = await uploadBytes(imageRef, file)
-          const downloadURL = await getDownloadURL(snapshot.ref)
-          urls.push(downloadURL)
+          const formData = new FormData()
+          const renamedFile = new File(
+            [file],
+            `${i + imageName}_${file.name.replaceAll(" ", "_")}`,
+            { type: file.type },
+          )
+          formData.append("fileToUpload", renamedFile)
+          api.UploadApi.Upload(formData)
+          urls.push(
+            `${process.env.NEXT_PUBLIC_API_BASE}/uploads/${
+              i + imageName
+            }_${file.name.replaceAll(" ", "_")}`,
+          )
         }
       }
 
@@ -211,7 +221,7 @@ export const Manage = () => {
         downloadReportURL = report
       }
 
-      const inputDataCopy = { ...data }
+      const inputDataCopy = { ...dataa }
       inputDataCopy.timestamp = serverTimestamp()
       inputDataCopy.status = "Pending Approval"
       inputDataCopy.images = urls
@@ -223,8 +233,10 @@ export const Manage = () => {
       inputDataCopy.investigation = downloadInvestigationURL
       inputDataCopy.report = downloadReportURL
 
-      const projectDoc = doc(db, "Projects", data.id)
+      const projectDoc = doc(db, "Projects", dataa.id)
       await updateDoc(projectDoc, inputDataCopy)
+
+      console.log(inputDataCopy)
 
       reset({
         projectTitle: "",
@@ -251,7 +263,7 @@ export const Manage = () => {
       setData(
         produce((draft) => {
           let projectData = draft.find(
-            (projectData) => projectData.id === data.id,
+            (projectData) => projectData.id === dataa.id,
           )
           projectData.projectTitle = inputDataCopy.projectTitle
           projectData.projectSupervisor = inputDataCopy.projectSupervisor
@@ -269,7 +281,7 @@ export const Manage = () => {
           projectData.group = inputDataCopy.group
           projectData.achivements = inputDataCopy.achivements
           projectData.timestamp.seconds = imageName
-          projectData.image = inputDataCopy.images
+          projectData.image = urls
         }),
       )
       Swal.fire({
