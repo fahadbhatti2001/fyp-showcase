@@ -7,15 +7,9 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore"
-import { db, storage } from "@/FirebaseConfig"
+import { db } from "@/FirebaseConfig"
 import { Chips, Spinner, UseUserAuth } from "@/components"
 import Swal from "sweetalert2"
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from "firebase/storage"
 import { useForm } from "react-hook-form"
 import {
   ArrowLeftCircleIcon,
@@ -189,36 +183,43 @@ export const Manage = () => {
         }
       }
 
-      let downloadProposalURL = ""
+      let formDataProposal = new FormData()
       if (typeof proposal !== "string") {
-        const proposalRef = ref(storage, `files/${proposal.name}`)
-        const snapshotProposal = await uploadBytes(proposalRef, proposal)
-        downloadProposalURL = await getDownloadURL(snapshotProposal.ref)
+        const renamedFileProposal = new File(
+          [proposal],
+          `${imageName}_${proposal.name.replaceAll(" ", "_")}`,
+          { type: proposal.type },
+        )
+        formDataProposal.append("fileToUpload", renamedFileProposal)
+        api.UploadApi.Upload(formDataProposal)
       } else {
-        downloadProposalURL = proposal
+        formDataProposal = proposal
       }
 
-      let downloadInvestigationURL = ""
+      let formDataInvestigation = new FormData()
       if (typeof investigation !== "string") {
-        const investigationRef = ref(storage, `files/${investigation.name}`)
-        const snapshotInvestigation = await uploadBytes(
-          investigationRef,
-          investigation,
+        const renamedFileInvestigation = new File(
+          [investigation],
+          `${imageName}_${investigation.name.replaceAll(" ", "_")}`,
+          { type: investigation.type },
         )
-        downloadInvestigationURL = await getDownloadURL(
-          snapshotInvestigation.ref,
-        )
+        formDataInvestigation.append("fileToUpload", renamedFileInvestigation)
+        api.UploadApi.Upload(formDataInvestigation)
       } else {
-        downloadInvestigationURL = investigation
+        formDataInvestigation = investigation
       }
 
-      let downloadReportURL = ""
+      let formDataReport = new FormData()
       if (typeof report !== "string") {
-        const reportRef = ref(storage, `files/${report.name}`)
-        const snapshotReport = await uploadBytes(reportRef, report)
-        downloadReportURL = await getDownloadURL(snapshotReport.ref)
+        const renamedFileReport = new File(
+          [report],
+          `${imageName}_${report.name.replaceAll(" ", "_")}`,
+          { type: report.type },
+        )
+        formDataReport.append("fileToUpload", renamedFileReport)
+        api.UploadApi.Upload(formDataReport)
       } else {
-        downloadReportURL = report
+        formDataReport = report
       }
 
       const inputDataCopy = { ...dataa }
@@ -229,14 +230,36 @@ export const Manage = () => {
       inputDataCopy.group = group
       inputDataCopy.userID = user.uid
 
-      inputDataCopy.proposal = downloadProposalURL
-      inputDataCopy.investigation = downloadInvestigationURL
-      inputDataCopy.report = downloadReportURL
+      if (typeof proposal === "string") {
+        inputDataCopy.proposal = formDataProposal
+      } else {
+        inputDataCopy.proposal = `${
+          process.env.NEXT_PUBLIC_API_BASE
+        }/uploads/${imageName}_${proposal.name.replaceAll(" ", "_")}`
+      }
+
+      if (typeof investigation === "string") {
+        inputDataCopy.investigation = formDataInvestigation
+      } else {
+        inputDataCopy.investigation = `${
+          process.env.NEXT_PUBLIC_API_BASE
+        }/uploads/${imageName}_${investigation.name.replaceAll(" ", "_")}`
+      }
+
+      if (typeof report === "string") {
+        inputDataCopy.report = formDataReport
+      } else {
+        inputDataCopy.report = `${
+          process.env.NEXT_PUBLIC_API_BASE
+        }/uploads/${imageName}_${report.name.replaceAll(" ", "_")}`
+      }
 
       const projectDoc = doc(db, "Projects", dataa.id)
       await updateDoc(projectDoc, inputDataCopy)
 
-      console.log(inputDataCopy)
+      formDataProposal = ""
+      formDataInvestigation = ""
+      formDataReport = ""
 
       reset({
         projectTitle: "",
@@ -265,6 +288,9 @@ export const Manage = () => {
           let projectData = draft.find(
             (projectData) => projectData.id === dataa.id,
           )
+          projectData.proposal = inputDataCopy.proposal
+          projectData.investigation = inputDataCopy.investigation
+          projectData.report = inputDataCopy.report
           projectData.projectTitle = inputDataCopy.projectTitle
           projectData.projectSupervisor = inputDataCopy.projectSupervisor
           projectData.department = inputDataCopy.department
@@ -281,7 +307,7 @@ export const Manage = () => {
           projectData.group = inputDataCopy.group
           projectData.achivements = inputDataCopy.achivements
           projectData.timestamp.seconds = imageName
-          projectData.image = urls
+          projectData.images = inputDataCopy.images
         }),
       )
       Swal.fire({

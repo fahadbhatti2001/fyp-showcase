@@ -6,13 +6,13 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore"
-import { db, storage } from "@/FirebaseConfig"
+import { db } from "@/FirebaseConfig"
 import { Spinner, UseUserAuth } from "@/components"
 import Swal from "sweetalert2"
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline"
 import { produce } from "immer"
 import Link from "next/link"
-import { deleteObject, ref } from "firebase/storage"
+import { api } from "@/api"
 
 export const Decline = () => {
   let [data, setData] = useState([])
@@ -63,7 +63,6 @@ export const Decline = () => {
           api.UploadApi.Delete(dataa.investigation)
           api.UploadApi.Delete(dataa.report)
           await deleteDoc(projectDoc)
-          console.log(data)
           const newData = data.filter((e) => e.id != dataa.id)
           setData(newData)
           setSpin(false)
